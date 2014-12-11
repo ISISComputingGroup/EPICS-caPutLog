@@ -27,9 +27,8 @@
 #include <errlog.h>
 #include <logClient.h>
 
-#include "caPutLog.h"
-
 #define epicsExportSharedSymbols
+#include "caPutLog.h"
 #include "caPutLogClient.h"
 
 #ifndef LOCAL

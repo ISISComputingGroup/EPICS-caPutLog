@@ -23,3 +23,5 @@ EPICS_BASE=/opt/Epics/R3.14.12/base/3-14-12-2-1
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
 #SCH2EDIF_PATH=
+
+include $(TOP)/../../../ISIS_CONFIG.$(EPICS_HOST_ARCH)

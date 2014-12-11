@@ -26,11 +26,10 @@
 #include <envDefs.h>
 #include <logClient.h>
 
+#define epicsExportSharedSymbols
 #include "caPutLogAs.h"
 #include "caPutLogTask.h"
 #include "caPutLogClient.h"
-
-#define epicsExportSharedSymbols
 #include "caPutLog.h"
 
 #ifndef LOCAL

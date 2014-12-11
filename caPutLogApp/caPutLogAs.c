@@ -49,10 +49,9 @@
 #include <freeList.h>
 #include <asTrapWrite.h>
 
+#define epicsExportSharedSymbols
 #include "caPutLog.h"
 #include "caPutLogTask.h"
-
-#define epicsExportSharedSymbols
 #include "caPutLogAs.h"
 
 static asTrapWriteId listenerId = 0;
@@ -63,7 +62,7 @@ static void *logDataFreeList = 0;
 
 static void caPutLogAs(asTrapWriteMessage * pmessage, int afterPut);
 
-int caPutLogAsInit()
+int epicsShareAPI caPutLogAsInit()
 {
     if (!asActive) {
         errlogSevPrintf(errlogFatal, "caPutLog: access security is disabled\n");
@@ -84,7 +83,7 @@ int caPutLogAsInit()
     return caPutLogSuccess;
 }
 
-void caPutLogAsStop()
+void epicsShareAPI caPutLogAsStop()
 {
     caPutLogTaskStop();
 
@@ -159,12 +158,12 @@ static void caPutLogAs(asTrapWriteMessage *pmessage, int afterPut)
     }
 }
 
-void caPutLogDataFree(LOGDATA *plogData)
+void epicsShareAPI caPutLogDataFree(LOGDATA *plogData)
 {
     freeListFree(logDataFreeList, plogData);
 }
 
-LOGDATA* caPutLogDataCalloc(void)
+LOGDATA* epicsShareAPI caPutLogDataCalloc(void)
 {
   return freeListCalloc(logDataFreeList);
 }

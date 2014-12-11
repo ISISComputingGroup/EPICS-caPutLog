@@ -56,11 +56,10 @@
 #include <asLib.h>
 #include <epicsAssert.h>
 
+#define epicsExportSharedSymbols
 #include "caPutLog.h"
 #include "caPutLogAs.h"
 #include "caPutLogClient.h"
-
-#define epicsExportSharedSymbols
 #include "caPutLogTask.h"
 
 #ifdef NO
@@ -108,7 +107,7 @@ static epicsMessageQueueId caPutLogQ;   /* Mailbox for caPutLogTask */
 #define isDbrNumeric(type) ((type) > DBR_STRING && (type) <= DBR_ENUM)
 
 /* Start Rng Log Task */
-int caPutLogTaskStart(int config)
+int epicsShareAPI caPutLogTaskStart(int config)
 {
     epicsThreadId threadId;
     char *caPutLogPVEnv;
@@ -162,12 +161,12 @@ int caPutLogTaskStart(int config)
     return caPutLogSuccess;
 }
 
-void caPutLogTaskStop(void)
+void epicsShareAPI caPutLogTaskStop(void)
 {
     shut_down = TRUE;
 }
 
-void caPutLogTaskSend(LOGDATA *plogData)
+void epicsShareAPI caPutLogTaskSend(LOGDATA *plogData)
 {
     if (!caPutLogQ) {
         return;
