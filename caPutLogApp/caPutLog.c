@@ -64,7 +64,7 @@ int epicsShareAPI caPutLogReconf (int config)
 
 static void caPutLogExitProc(void *arg)
 {
-    caPutLogTaskStop();
+    caPutLogAsStop();
 }
 
 /*
