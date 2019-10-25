@@ -3,7 +3,7 @@
  *	Created:  25.05.98
  *
  *	Contains codes for a task which waits for messages
- *	on specified Ring Buffer, sorts messages to avoid 
+ *	on specified Ring Buffer, sorts messages to avoid
  *	multiple logging for subsequent messages with the same
  *	record name, forms logging message and logs it via iocCAPutLogPrintf.
  *
@@ -35,7 +35,7 @@
  *				Optionally logging is done either for all puts
  *				or for puts changing value.
  *	12/12/02	kor	Added RngLogTaskVersio request
- *	
+ *
  *	03/24/14	jp	filled in val_dump()
  */
 
@@ -94,7 +94,7 @@ static void val_dump(LOGDATA *pdata);
 
 static int shut_down = FALSE;           /* Shut down flag */
 static DBADDR caPutLogPV;               /* Structure to keep address of Log PV */
-static DBADDR *pcaPutLogPV;             /* Pointer to PV address structure, 
+static DBADDR *pcaPutLogPV;             /* Pointer to PV address structure,
                                            also used as a flag whether this
                                            PV is defined or not */
 static epicsMessageQueueId caPutLogQ;   /* Mailbox for caPutLogTask */
@@ -514,7 +514,7 @@ static void val_assign(VALUE *dst, const VALUE *src, short type)
 /*
  * caPutLogVALUEToString(): convert VALUE to string
  */
-int caPutLogVALUEToString(char *pbuf, size_t buflen, const VALUE *pval, short type)
+static int caPutLogVALUEToString(char *pbuf, size_t buflen, const VALUE *pval, short type)
 {
     switch (type) {
     case DBR_CHAR:
@@ -537,6 +537,12 @@ int caPutLogVALUEToString(char *pbuf, size_t buflen, const VALUE *pval, short ty
         return epicsSnprintf(pbuf, buflen, "%g", pval->v_float);
     case DBR_DOUBLE:
         return epicsSnprintf(pbuf, buflen, "%g", pval->v_double);
+#ifdef DBR_INT64
+    case DBR_INT64:
+        return epicsSnprintf(pbuf, buflen, "%lld", pval->v_int64);
+    case DBR_UINT64:
+        return epicsSnprintf(pbuf, buflen, "%llu", pval->v_uint64);
+#endif
     default:
         return epicsSnprintf(pbuf, buflen, "%s", pval->v_string);
     }
