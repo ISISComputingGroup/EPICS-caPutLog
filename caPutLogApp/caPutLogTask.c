@@ -105,7 +105,7 @@ static epicsMessageQueueId caPutLogQ;   /* Mailbox for caPutLogTask */
 #define isDbrNumeric(type) ((type) > DBR_STRING && (type) <= DBR_ENUM)
 
 /* Start Rng Log Task */
-int epicsShareAPI caPutLogTaskStart(int config)
+int caPutLogTaskStart(int config)
 {
     epicsThreadId threadId;
     char *caPutLogPVEnv;
@@ -159,12 +159,12 @@ int epicsShareAPI caPutLogTaskStart(int config)
     return caPutLogSuccess;
 }
 
-void epicsShareAPI caPutLogTaskStop(void)
+void caPutLogTaskStop(void)
 {
     shut_down = TRUE;
 }
 
-void epicsShareAPI caPutLogTaskSend(LOGDATA *plogData)
+void caPutLogTaskSend(LOGDATA *plogData)
 {
     if (!caPutLogQ) {
         return;
@@ -514,7 +514,7 @@ static void val_assign(VALUE *dst, const VALUE *src, short type)
 /*
  * caPutLogVALUEToString(): convert VALUE to string
  */
-static int caPutLogVALUEToString(char *pbuf, size_t buflen, const VALUE *pval, short type)
+int caPutLogVALUEToString(char *pbuf, size_t buflen, const VALUE *pval, short type)
 {
     switch (type) {
     case DBR_CHAR:
