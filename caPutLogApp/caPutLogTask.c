@@ -80,7 +80,7 @@
 #define min(x, y)       (((x) < (y)) ? (x) : (y))
 #endif
 
-#define MAX_BUF_SIZE    120     /* Length of log string */
+#define MAX_BUF_SIZE    256     /* Length of log string */
 
 static void caPutLogTask(void *arg);
 static void log_msg(const VALUE *pold_value, const LOGDATA *pLogData,
@@ -539,6 +539,12 @@ static int val_to_string(char *pbuf, size_t buflen, const VALUE *pval, short typ
         return epicsSnprintf(pbuf, buflen, "%g", pval->v_float);
     case DBR_DOUBLE:
         return epicsSnprintf(pbuf, buflen, "%g", pval->v_double);
+#ifdef DBR_INT64
+    case DBR_INT64:
+        return epicsSnprintf(pbuf, buflen, "%lld", pval->v_int64);
+    case DBR_UINT64:
+        return epicsSnprintf(pbuf, buflen, "%llu", pval->v_uint64);
+#endif
     default:
         return epicsSnprintf(pbuf, buflen, "%s", pval->v_string);
     }
