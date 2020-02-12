@@ -66,7 +66,7 @@ int epicsShareAPI caPutLogClientInit (const char *addr_str)
 {
     int status;
     struct sockaddr_in saddr;
-    long default_port = 7011;
+    unsigned short default_port = 7011;
 
     if (caPutLogClient!=NULL) {
         return caPutLogSuccess;

@@ -55,10 +55,11 @@
 #include <asLib.h>
 #include <epicsAssert.h>
 
-#define epicsExportSharedSymbols
 #include "caPutLog.h"
 #include "caPutLogAs.h"
 #include "caPutLogClient.h"
+
+#define epicsExportSharedSymbols
 #include "caPutLogTask.h"
 
 #ifdef NO
@@ -106,7 +107,7 @@ static epicsMessageQueueId caPutLogQ;   /* Mailbox for caPutLogTask */
 #define isDbrNumeric(type) ((type) > DBR_STRING && (type) <= DBR_ENUM)
 
 /* Start Rng Log Task */
-int epicsShareAPI caPutLogTaskStart(int config)
+int caPutLogTaskStart(int config)
 {
     epicsThreadId threadId;
     char *caPutLogPVEnv;
@@ -152,7 +153,7 @@ int epicsShareAPI caPutLogTaskStart(int config)
     shut_down = FALSE;
     threadId = epicsThreadCreate("caPutLog", epicsThreadPriorityLow,
         epicsThreadGetStackSize(epicsThreadStackSmall),
-        caPutLogTask, (void*)config);
+        caPutLogTask, (void*)(size_t)config);
     if (!threadId) {
         errlogSevPrintf(errlogFatal,"caPutLog: thread creation failed\n");
         return caPutLogError;
@@ -160,12 +161,12 @@ int epicsShareAPI caPutLogTaskStart(int config)
     return caPutLogSuccess;
 }
 
-void epicsShareAPI caPutLogTaskStop(void)
+void caPutLogTaskStop(void)
 {
     shut_down = TRUE;
 }
 
-void epicsShareAPI caPutLogTaskSend(LOGDATA *plogData)
+void caPutLogTaskSend(LOGDATA *plogData)
 {
     if (!caPutLogQ) {
         return;
@@ -178,7 +179,7 @@ void epicsShareAPI caPutLogTaskSend(LOGDATA *plogData)
 static void caPutLogTask(void *arg)
 {
     int sent = FALSE, burst = FALSE;
-    int config = (int)arg;
+    int config = (size_t)arg;
     LOGDATA *pcurrent, *pnext;
     VALUE old_value, max_value, min_value;
     VALUE *pold=&old_value, *pmax=&max_value, *pmin=&min_value;
@@ -538,6 +539,12 @@ static int val_to_string(char *pbuf, size_t buflen, const VALUE *pval, short typ
         return epicsSnprintf(pbuf, buflen, "%g", pval->v_float);
     case DBR_DOUBLE:
         return epicsSnprintf(pbuf, buflen, "%g", pval->v_double);
+#ifdef DBR_INT64
+    case DBR_INT64:
+        return epicsSnprintf(pbuf, buflen, "%lld", pval->v_int64);
+    case DBR_UINT64:
+        return epicsSnprintf(pbuf, buflen, "%llu", pval->v_uint64);
+#endif
     default:
         return epicsSnprintf(pbuf, buflen, "%s", pval->v_string);
     }
