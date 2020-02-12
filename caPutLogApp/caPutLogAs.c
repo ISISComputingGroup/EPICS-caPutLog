@@ -69,7 +69,7 @@ static void *logDataFreeList = 0;
 
 static void caPutLogAs(asTrapWriteMessage * pmessage, int afterPut);
 
-int epicsShareAPI caPutLogAsInit()
+int  caPutLogAsInit()
 {
     if (!asActive) {
         errlogSevPrintf(errlogFatal, "caPutLog: access security is disabled\n");
@@ -90,7 +90,7 @@ int epicsShareAPI caPutLogAsInit()
     return caPutLogSuccess;
 }
 
-void epicsShareAPI caPutLogAsStop()
+void  caPutLogAsStop()
 {
     caPutLogTaskStop();
 
@@ -174,12 +174,12 @@ static void caPutLogAs(asTrapWriteMessage *pmessage, int afterPut)
     }
 }
 
-void epicsShareAPI caPutLogDataFree(LOGDATA *plogData)
+void  caPutLogDataFree(LOGDATA *plogData)
 {
     freeListFree(logDataFreeList, plogData);
 }
 
-LOGDATA* epicsShareAPI caPutLogDataCalloc(void)
+LOGDATA*  caPutLogDataCalloc(void)
 {
   return freeListCalloc(logDataFreeList);
 }
