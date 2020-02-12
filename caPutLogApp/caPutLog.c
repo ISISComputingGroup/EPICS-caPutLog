@@ -40,7 +40,7 @@
 /*
  *  caPutLogShow ()
  */
-void epicsShareAPI caPutLogShow (int level)
+void  caPutLogShow (int level)
 {
     if (level < 0) level = 0;
     if (level > 2) level = 2;
@@ -53,7 +53,7 @@ void epicsShareAPI caPutLogShow (int level)
 /*
  *  caPutLogReconf()
  */
-int epicsShareAPI caPutLogReconf (int config)
+int  caPutLogReconf (int config)
 {
 #if 0
     caPutLogTaskReconf(config);
@@ -70,7 +70,7 @@ static void caPutLogExitProc(void *arg)
 /*
  *  caPutLogInit()
  */
-int epicsShareAPI caPutLogInit (const char *addr_str, int config)
+int  caPutLogInit (const char *addr_str, int config)
 {
     int status;
 
