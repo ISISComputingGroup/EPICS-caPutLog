@@ -1,8 +1,10 @@
 #include <dbDefs.h>
 #include <iocsh.h>
+
 #include <epicsExport.h>
 
 #include "caPutLog.h"
+#include "caPutLogPvt.h"
 
 static const iocshArg caPutLogInitArg0 = {"address", iocshArgString};
 static const iocshArg caPutLogInitArg1 = {"config", iocshArgInt};
@@ -47,3 +49,6 @@ static void caPutLogRegister(void)
     iocshRegister(&caPutLogShowDef,caPutLogShowCall);
 }
 epicsExportRegistrar(caPutLogRegister);
+
+extern int caPutLogToConsole = 0;
+epicsExportAddress(int, caPutLogToConsole);
