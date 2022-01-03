@@ -30,6 +30,7 @@
 #define epicsExportSharedSymbols
 #include "caPutLog.h"
 #include "caPutLogClient.h"
+#include "caPutLogPvt.h"
 
 #ifndef LOCAL
 #define LOCAL static
@@ -99,5 +100,8 @@ void  caPutLogClientSend (const char *message)
 {
     if (caPutLogClient) {
         logClientSend (caPutLogClient, message);
+    }
+    if (caPutLogToConsole) {
+        fprintf (stdout, "%s\n", message);
     }
 }
