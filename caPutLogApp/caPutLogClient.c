@@ -102,6 +102,6 @@ void  caPutLogClientSend (const char *message)
         logClientSend (caPutLogClient, message);
     }
     if (caPutLogToConsole) {
-        fprintf (stdout, "%s\n", message);
+        fprintf (stderr, "%s\n", message);
     }
 }
