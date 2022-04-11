@@ -103,5 +103,6 @@ void  caPutLogClientSend (const char *message)
     }
     if (caPutLogToConsole) {
         fprintf (stderr, "%s\n", message);
+        fflush(stderr);
     }
 }
